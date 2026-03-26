@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/index.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.mjs"
+    "start": "node src/server.mjs",
+    "dev": "nodemon src/server.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
