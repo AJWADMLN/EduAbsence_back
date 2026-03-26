@@ -49,6 +49,21 @@ export const createAbsence = async (req, res) => {
       return res.status(403).json({ message: "Directeur et enseignant doivent appartenir à la même établissement" });
     }
 
+    // تحقق من عدم وجود غياب مسبق لنفس الأستاذ في نفس اليوم
+    const startOfDay = new Date(dateAbsence);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    const endOfDay = new Date(dateAbsence);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    const existingAbsence = await AbsenceModel.findOne({
+      enseignantPpr,
+      dateAbsence: { $gte: startOfDay, $lte: endOfDay }
+    });
+
+    if (existingAbsence) {
+      return res.status(400).json({ message: "Cet enseignant a déjà une absence enregistrée pour ce jour." });
+    }
+
     let finalHeureDebut = heureDebut;
     if (!finalHeureDebut) {
       finalHeureDebut = quart === "soir" ? "15:00" : "09:00";
