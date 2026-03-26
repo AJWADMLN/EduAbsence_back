@@ -7,7 +7,7 @@ import { loginUnified } from "./controllers/AuthController.mjs";
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+  origin: true,   // reflect the request origin — allows localhost AND ngrok tunnels
   credentials: true
 }));
 app.use(express.json());
